@@ -1,7 +1,8 @@
 ---
-title: theme-config
-date: 2017-11-01 16:53:58
+title: hexo
+category: 学习笔记
 tags: Hexo
+date: 2017-11-01 16:53:58
 ---
 
 [Hexo docs](https://hexo.io/zh-cn/docs/)

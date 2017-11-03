@@ -4,7 +4,7 @@ read MESSAGE
 
 echo "Deploying $MESSAGE ..."
 
-clean
+# clean
 hexo clean
 
 # compiler
