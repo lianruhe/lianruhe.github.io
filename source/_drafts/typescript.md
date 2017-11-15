@@ -88,7 +88,113 @@ awesome-typescript-loader 可以让 Webpack 使用 TypeScript 的标准配置文
 
 ### 1.基础类型
 
+#### 布尔值
+
+```js
+  let isDone: boolean = false
+```
+
+#### 数字
+
+```js
+  let count: number = 6
+  let count: number = 0xf00d
+  let count: number = 0b1010
+  let count: number = 0o744
+```
+
+#### 字符串
+
+```js
+  let name: string = 'jack'
+```
+
+#### 数组
+
+```js
+  let list: number[] = [1, 2, 3]
+  let list Array<number> = [1, 2, 3]
+```
+
+#### 元组 Tuple
+
+```js
+  let x: [string, number]
+  x = ['hello', 10] // ok
+  x = [10, 'hello'] // error
+  x[3] = 'world' // ok, 越界的元素可以赋值 string 或 number 类型，感觉和 js 数组类似，只是限定了类型
+  x[7] = true // error
+```
+
+#### 枚举
+
+```js
+  enum Color { Red, Green, Blue } // 默认情况下，从0开始为元素编号,即：Color { 0, 1, 2 }
+  let c: Color = Color.Green
+  // 也可以手动的指定成员的数值。 例如，我们将上面的例子改成从1开始编号
+  enum Color { Red = 1, Green, Blue }
+  // 也可以全部手动赋值
+  enum Color { Red = 1, Green = 2, Blue = 7 }
+```
+
+#### 任意值
+
+```js
+  let ant: any = 4
+  ant = 'jack'
+  ant.ifItExists() // okay, ifItExists might exist at runtime
+  ant.toFixed() // okay, toFixed exists (but the compiler doesn't check)
+  let list: any[] = [1, true, 'jack']
+```
+
+#### 空值
+
+```js
+  let unusable: void = undefined
+  function log(): void {
+    console.log('this is a function')
+  }
+```
+
+#### undefined 和 null 也是和自己相同的类型，和 void 一样作用不大
+
+```js
+  let u: undefined = undefined
+  let n: null = null
+```
+
+#### never 类型，表示永不存在的类型
+
+  never类型是任何类型的子类型，也可以赋值给任何类型；然而，没有类型是never的子类型或可以赋值给never类型（除了never本身之外）。 即使any也不可以赋值给never。
+
+```js
+  // 返回never的函数必须存在无法达到的终点
+  function error(message: string): never {
+      throw new Error(message);
+  }
+  // 推断的返回值类型为never
+  function fail() {
+      return error("Something failed");
+  }
+  // 返回never的函数必须存在无法达到的终点
+  function infiniteLoop(): never {
+      while (true) {
+      }
+  }
+```
+
+#### 类型断言
+
+```js
+  let someValue: any = 'this is a string'
+  // 两种形式，等价的。然而在 jsx 使用 ts 时，只有 as 是被允许的
+  let strLength: number = (<string>someValue).length
+  let strLength: number = (someValue as string).length
+```
 
 ### 2.变量声明
+
+
+
 ### 3.
 ...
