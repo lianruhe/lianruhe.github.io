@@ -12,6 +12,8 @@ tags: TypeScript
 
   以上是本人还没有学习 ts 之前的片面理解，学完之后再来补充。
 
+  参考文章：[http://www.css88.com/doc/typescript/](http://www.css88.com/doc/typescript/)
+
   Let's go！
 
 ## React && webpack
@@ -156,16 +158,16 @@ awesome-typescript-loader 可以让 Webpack 使用 TypeScript 的标准配置文
   }
 ```
 
-#### undefined 和 null 也是和自己相同的类型，和 void 一样作用不大
+#### undefined 和 null
 
 ```js
   let u: undefined = undefined
   let n: null = null
 ```
 
-#### never 类型，表示永不存在的类型
+#### never 类型
 
-  never类型是任何类型的子类型，也可以赋值给任何类型；然而，没有类型是never的子类型或可以赋值给never类型（除了never本身之外）。 即使any也不可以赋值给never。
+  表示永不存在的类型, never类型是任何类型的子类型，也可以赋值给任何类型；然而，没有类型是never的子类型或可以赋值给never类型（除了never本身之外）。 即使any也不可以赋值给never。
 
 ```js
   // 返回never的函数必须存在无法达到的终点
@@ -194,7 +196,86 @@ awesome-typescript-loader 可以让 Webpack 使用 TypeScript 的标准配置文
 
 ### 2.变量声明
 
+#### 关键字
 
+let 和 const 是 JavaScript 里相对较新的变量声明方式。 像我们之前提到过的，let 在很多方面与 var 是相似的，但是可以帮助大家避免在 JavaScript 里常见一些问题。 const 是对 let 的一个增强，它能阻止对一个变量再次赋值.
+当用 let 声明一个变量，它使用的是词法作用域或块作用域。 不同于使用 var 声明的变量那样可以在包含它们的函数外访问，块作用域变量在包含它们的块或 for 循环之外是不能访问的。
+
+#### 解构
+
+##### 1.解构数组
+
+```js
+let input = [1, 2]
+let [first, second] = input
+console.log(first) // outputs 1
+console.log(second) // outputs 2
+
+// swap variables
+[first, second] = [second, first]
+
+function f([first, second]: [number, number]) {
+    console.log(first);
+    console.log(second);
+}
+```
+
+##### 2.对象解构
+
+```js
+let o = {
+    a: "foo",
+    b: 12,
+    c: "bar"
+}
+let { a, b } = o
+// 重新命名
+let { a: newName1, b: newName2 } = o
+// 默认值
+function fn(arg: { a: string, b?: number }) {
+  let { a, b = 1000 } = arg
+}
+```
+
+##### 3.函数声明
+要小心使用解构。 从前面的例子可以看出，就算是最简单的解构表达式也是难以理解的。 尤其当存在深层嵌套解构的时候，就算这时没有堆叠在一起的重命名，默认值和类型注解，也是令人难以理解的。 解构表达式要尽量保持小而简单。 你自己也可以直接使用解构将会生成的赋值表达式。
+
+```js
+type C = { a: string, b?: number }
+function f({ a, b }: C): void {
+    // ...
+}
+
+function f({ a, b } = { a: "", b: 0 }): void {
+    // ...
+}
+f() // ok, default to { a: "", b: 0 }
+
+function f({ a, b = 0 } = { a: "" }): void {
+    // ...
+}
+f({ a: "yes" }) // ok, default b = 0
+f() // ok, default to {a: ""}, which then defaults b = 0
+f({}) // error, 'a' is required if you supply an argument
+```
+
+#### 解构展开
+
+```js
+let first = [1, 2]
+let second = [3, 4]
+let bothPlus = [0, ...first, ...second, 5]
+
+class C {
+  p = 12
+  m () {
+  }
+}
+let c = new C()
+let clone = { ...c }
+clone.p // ok
+clone.m() // error!
+```
 
 ### 3.
 ...
