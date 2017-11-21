@@ -277,5 +277,64 @@ clone.p // ok
 clone.m() // error!
 ```
 
-### 3.
+### 3.接口
+
+TypeScript 的核心原则之一是对值所具有的结构进行类型检查。 它有时被称做“鸭式辨型法”或“结构性子类型化”。 在 TypeScript 里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
+
+```js
+interface LabelledValue {
+  label: string
+}
+
+fucntion printLabel(labelObject: LebelledValue) {
+  console.log(labelObject)
+}
+printLabel({ size: 10, label: 'string...'})
+```
+
+#### 可选属性
+
+带有可选属性的接口与普通的接口定义差不多，只是在可选属性名字定义的后面加一个 ? 符号
+
+```js
+interface SquareConfig {
+  color?: string,
+  width?: number
+}
+```
+#### 只读属性
+
+最简单判断该用 readonly 还是 const 的方法是看要把它做为变量使用还是做为一个属性。 做为变量使用的话用 const，若做为属性则使用 readonly。
+
+```js
+interface Point {
+  readonly x: number;
+  readobly y: number;
+}
+```
+
+#### 额外属性检测
+
+```js
+interface SquareConfig {
+    color?: string;
+    width?: number;
+    [propName: string]: any;
+}
+```
+
+#### 函数类型
+
+我们可以像使用其它接口一样使用这个函数类型的接口。
+
+```js
+interface SearchFunc {
+  (source: string, subString: string): boolean;
+}
+let mySearch: SearchFunc;
+mySearch = function(source: string, subString: string) {
+  let result = source.search(subString);
+  return result > -1;
+}
+```
 ...
