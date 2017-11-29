@@ -337,4 +337,116 @@ mySearch = function(source: string, subString: string) {
   return result > -1;
 }
 ```
-...
+
+#### 可索引的类型
+
+```js
+interface StringArray {
+  [index: number]: string;
+}
+let myArray: StringArray
+myArray = ['bob', 'fred']
+let myStr: string = myArray[0]
+```
+
+### 4.类
+
+```js
+class Greeter {
+    greeting: string
+    constructor(message: string) {
+        this.greeting = message
+    }
+    greet() {
+        return 'Hello, ' + this.greeting
+    }
+}
+
+let greeter = new Greeter('world')
+```
+
+#### 继承
+
+```js
+class Animal {
+    name: string
+    constructor (theName: string) { this.name = theName }
+    move (distanceInMeters: number = 0) {
+        console.log(`${this.name} moved ${distanceInMeters}m.`)
+    }
+}
+
+class Snake extends Animal {
+    constructor (name: string) { super(name) }
+    move (distanceInMeters = 5) {
+        console.log('Slithering...')
+        super.move(distanceInMeters)
+    }
+}
+
+class Horse extends Animal {
+    constructor (name: string) { super(name) }
+    move (distanceInMeters = 45) {
+        console.log('Galloping...')
+        super.move(distanceInMeters)
+    }
+}
+
+let sam = new Snake('Sammy the Python')
+let tom: Animal = new Horse('Tommy the Palomino')
+
+sam.move()
+tom.move(34)
+```
+
+#### 公共，私有与受保护的修饰符
+
+C# 要求必须明确地使用 public 指定成员是可见的。 在 TypeScript 里，成员都默认为 public
+当成员被标记成 private 时，它就不能在声明它的类的外部访问
+protected 修饰符与 private 修饰符的行为很相似，但有一点不同，protected 成员在派生类中仍然可以访问
+
+```js
+class Animal {
+    public name: string;
+    private str: string;
+    public constructor(theName: string) { this.name = theName; }
+    public move(distanceInMeters: number) {
+        console.log(`${this.name} moved ${distanceInMeters}m.`);
+    }
+}
+```
+
+#### readonly 修饰符
+
+readonly 关键字将属性设置为只读的。 只读属性必须在声明时或构造函数里被初始化。
+
+```js
+class Octopus {
+    readonly name: string;
+    readonly numberOfLegs: number = 8;
+    constructor (theName: string) {
+        this.name = theName;
+    }
+}
+```
+
+#### 参数属性
+
+参数属性通过给构造函数参数添加一个访问限定符来声明。 使用 private 限定一个参数属性会声明并初始化一个私有成员；对于 public 和 protected 来说也是一样。其实就是把声明和赋值合并至一处。
+
+```js
+class Animal {
+    constructor(private name: string) { }
+    move(distanceInMeters: number) {
+        console.log(`${this.name} moved ${distanceInMeters}m.`);
+    }
+}
+```
+
+#### 存取器
+
+TypeScript 支持通过 getters/setters 来截取对对象成员的访问。 它能帮助你有效的控制对对象成员的访问。
+
+
+### 5.函数
+### 6.泛型
