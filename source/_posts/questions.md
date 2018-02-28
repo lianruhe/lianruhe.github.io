@@ -56,16 +56,32 @@ tags: 前端问题
 > Session 是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中；
 Cookie 是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是实现 Session 的一种方式。用来服务端识别特定的客户；默认浏览器关闭失效；
 
-## LocalStorage 和sessionStorage
+## LocalStorage 和 sessionStorage
 > 都是 web Storage，HTML5 引入的一个重要的功能，在前端开发的过程中会经常用到，它可以在客户端本地存储数据，类似cookie，但其功能却比cookie强大的多。cookie的大小只有4Kb左右（浏览器不同，大小也不同），而web Storage的大小有5MB；
 localStorage 的生命周期是永久性的。假若使用localStorage存储数据，即使关闭浏览器，也不会让数据消失，除非主动的去删除数据；
 sessionStorage 的生命周期是在浏览器关闭前。也就是说，在整个浏览器未关闭前，其数据一直都是存在的。
+
+## call, apply, bind
+> 都是改变调用的函数中的 this；区别：fn.call(that, a, b,...) fn.apply(that, arguments)参数不相同，apply是以数组的形式传入，call是一个一个传入，两者都是立即执行函数，而 bind 是返回修改 this 完成后的函数，需要再去执行。
+
+## ES6 主要的新特性
+
+- Block-Scoped Constructs Let and Const（块作用域构造Let and Const）
+- Destructuring Assignment （解构赋值）
+- Multi-line Strings （多行字符串）
+- Template Literals （模板文本）
+- Arrow Functions （箭头函数）in ES6
+- Default Parameters（默认参数）
+- Promises
+- Classes（类）
+- Enhanced Object Literals （增强的对象文本 Object.create）
+- Modules（模块）
 
 # css 相关
 
 ## BFC
 > 块级格式化上下文，它是指一个独立的块级渲染区域，只有Block-level BOX参与，该区域拥有一套渲染规则来约束块级盒子的布局，且与区域外部无关。
-满足下列CSS声明之一的元素便会生成 BFC
+满足下列 CSS 声明之一的元素便会生成 BFC
 - 根元素
 - float的值不为none
 - overflow的值不为visible
@@ -92,3 +108,15 @@ sessionStorage 的生命周期是在浏览器关闭前。也就是说，在整�
 - position: absolute; top: -999em;
 - position: absolute; visibility: hidden;
 - position: absolute; zoom: 0.001;
+
+# 性能优化
+
+1. 减少http请求次数：CSS Sprites, JS、CSS源码压缩、图片大小控制合适；网页Gzip，CDN托管，data缓存 ，图片服务器。
+2. 前端模板 JS+数据，减少由于HTML标签导致的带宽浪费，前端用变量保存AJAX请求结果，每次操作本地变量，不用请求，减少请求次数
+3. 用innerHTML代替DOM操作，减少DOM操作次数，优化javascript性能。
+4. 当需要设置的样式很多时设置className而不是直接操作style。
+5. 少用全局变量、缓存DOM节点查找的结果。减少IO读取操作。
+6. 避免使用CSS Expression（css表达式)又称Dynamic properties(动态属性)。
+7. 图片预加载，将样式表放在顶部，将脚本放在底部 加上时间戳。
+8. 避免在页面的主体布局中使用table，table要等其中的内容完全下载之后才会显示出来，显示div+css布局慢.
+对普通的网站有一个统一的思路，就是尽量向前端优化、减少数据库操作、减少磁盘IO。向前端优化指的是，在不影响功能和体验的情况下，能在浏览器执行的不要在服务端执行，能在缓存服务器上直接返回的不要到应用服务器，程序能直接取得的结果不要到外部取得，本机内能取得的数据不要到远程取，内存能取到的不要到磁盘取，缓存中有的不要去数据库查询。减少数据库操作指减少更新次数、缓存结果减少查询次数、将数据库执行的操作尽可能的让你的程序完成（例如join查询），减少磁盘IO指尽量不使用文件系统作为缓存、减少读写文件次数等。程序优化永远要优化慢的部分，换语言是无法“优化”的。
