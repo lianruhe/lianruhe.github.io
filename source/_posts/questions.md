@@ -89,7 +89,7 @@ sessionStorage 的生命周期是在浏览器关闭前。也就是说，在整�
 - Template Literals （模板文本）
 - Arrow Functions （箭头函数）in ES6
 - Default Parameters（默认参数）
-- Promises
+- Promise
 - Classes（类）
 - Enhanced Object Literals （增强的对象文本 Object.create）
 - Modules（模块）
@@ -116,7 +116,7 @@ sessionStorage 的生命周期是在浏览器关闭前。也就是说，在整�
 > 父元素坍塌；
 - 在父元素的最后加一个冗余元素并为其设置clear:both
 - 采用伪元素，这里我们使用:after。添加一个类 clearfix
-- 给父元素添加overflow:hidden ||auto
+- 给父元素添加overflow:hidden || auto
 
 ## 元素不可见，且不可点击
 
