@@ -5,7 +5,7 @@ date: 2018-03-12 17:10:01
 tags: webpack
 ---
 
-## webpack 模块化
+## webpack 模块化（CommonJS 模块）
 
 文章参考：[webpack 打包原理](https://www.jianshu.com/p/e24ed38d89fd)
 
@@ -118,3 +118,61 @@ exports.fn2 = function () {
 webpack传入的第一个参数module是当前缓存的模块，包含当前模块的信息和exports；第二个参数exports是module.exports的引用，这也符合commonjs的规范；第三个__webpack_require__ 则是require的实现。
 
 **原理还是很简单的，其实就是实现exports和require，然后自动加载入口模块，控制缓存模块，that's all。**
+
+## webpack 模块化（ES模块）
+
+还是用一个简单的例子：
+
+```js
+// index.js
+import bar, {foo} from './module.js';
+bar();
+foo();
+```
+
+```js
+// module.js
+export default function bar () {
+    return 1;
+};
+export function foo () {
+    return 2;
+}
+```
+
+模块打包后的代码
+
+```js
+// ...
+([
+  (function(module, __webpack_exports__, __webpack_require__) {
+      /******/
+      Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+      /* harmony import */
+      var __WEBPACK_IMPORTED_MODULE_0__m__ = __webpack_require__(1);
+      /******/
+      Object(__WEBPACK_IMPORTED_MODULE_0__m__["a" /* default */])();
+      Object(__WEBPACK_IMPORTED_MODULE_0__m__["b" /* foo */])();
+      /******/
+  }),
+  (function(module, __webpack_exports__, __webpack_require__) {
+      /******/
+      /* harmony export (immutable) */
+      __webpack_exports__["a"] = bar;
+      /* harmony export (immutable) */
+      __webpack_exports__["b"] = foo;
+      /******/
+      function bar () {
+          return 1;
+      };
+      function foo () {
+          return 2;
+      }
+      /******/
+  })
+]);
+```
+
+index模块首先通过Object.defineProperty在__webpack_exports__上添加属性__esModule ，值为true，表明这是一个es模块。在目前的代码下，这个标记是没有作用的，至于在什么情况下需要判断模块是否es模块，后面会分析。
+
+然后就是通过__webpack_require__(1)导入m.js模块，再然后通过module.xxx获取m.js中export的对应属性。注意这里有一个重要的点，就是所有引入的模块属性都会用Object()包装成对象，这是为了保证像Boolean、String、Number这些基本数据类型转换成相应的类型对象。
