@@ -145,9 +145,9 @@ export function foo () {
 ```js
 // ...
 ([
-  (function(module, __webpack_exports__, __webpack_require__) {
+  (function(module, exports, __webpack_require__) {
       /******/
-      Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       /* harmony import */
       var __WEBPACK_IMPORTED_MODULE_0__m__ = __webpack_require__(1);
       /******/
@@ -155,12 +155,12 @@ export function foo () {
       Object(__WEBPACK_IMPORTED_MODULE_0__m__["b" /* foo */])();
       /******/
   }),
-  (function(module, __webpack_exports__, __webpack_require__) {
+  (function(module, exports, __webpack_require__) {
       /******/
       /* harmony export (immutable) */
-      __webpack_exports__["a"] = bar;
+      exports["a"] = bar;
       /* harmony export (immutable) */
-      __webpack_exports__["b"] = foo;
+      exports["b"] = foo;
       /******/
       function bar () {
           return 1;
@@ -176,3 +176,5 @@ export function foo () {
 index模块首先通过Object.defineProperty在__webpack_exports__上添加属性__esModule ，值为true，表明这是一个es模块。在目前的代码下，这个标记是没有作用的，至于在什么情况下需要判断模块是否es模块，后面会分析。
 
 然后就是通过__webpack_require__(1)导入m.js模块，再然后通过module.xxx获取m.js中export的对应属性。注意这里有一个重要的点，就是所有引入的模块属性都会用Object()包装成对象，这是为了保证像Boolean、String、Number这些基本数据类型转换成相应的类型对象。
+
+**webpack对于es模块的实现，也是基于自己实现的__webpack_require__ 和 __webpack_exports__ ，装换成类似于 commonjs 的形式。对于 es 模块和 commonjs 混用的情况，则需要通过 __webpack_require__.n 的形式做一层包装来实现。**
