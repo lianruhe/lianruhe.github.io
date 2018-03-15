@@ -60,7 +60,7 @@ tags: 前端问题
 
 ## 什么时候使用 redux
 
-遵循了 flux 架构的思想（store => view => dispatcher => store => ...）
+遵循了 flux 架构的思想（store => view => dispatch(action) => store => ...）
 > Redux 单一数据集合以及绑定策略节省了大量的前端代码，并且对数据进行集中维护。结合单向数据流的概念，强迫组件更加纯粹。
 
 - 数据集合较庞大、数据关联性较强
