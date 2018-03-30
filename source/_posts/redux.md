@@ -7,7 +7,7 @@ tags: redux
 
 ## redux 应用中数据的生命周期
 
-1. 调用 store.dislpatch(action)
+1. 调用 store.dispatch(action)
 2. store 调用传入的 reducer 函数
 3. 多个子 reducer 输出合并成一个单一的 state 树
 4. store 保存根 reducer 返回的完整的 state 树
